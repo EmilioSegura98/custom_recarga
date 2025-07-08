@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Regla para que los usuarios solo vean sus propias recargas -->
+    <record model="ir.rule" id="recarga_task_user_rule">
+        <field name="name">Recarga Task: User-Specific</field>
+        <field name="model_id" ref="model_recarga_task"/>
+        <field name="domain_force">
+            ['|', ('user_id','=',user.id), ('user_id','=',False)]
+        </field>
+        <field name="groups" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Permiso especial para gerentes de ventas -->
+    <record model="ir.rule" id="recarga_task_sale_manager_rule">
+        <field name="name">Recarga Task: Sale Manager</field>
+        <field name="model_id" ref="model_recarga_task"/>
+        <field name="domain_force">[(1,'=',1)]</field>
+        <field name="groups" eval="[(4, ref('sales_team.group_sale_manager'))]"/>
+    </record>
+</odoo>
