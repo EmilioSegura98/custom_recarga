@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- 1. Heredamos la vista de formulario de ventas para añadir smart button -->
+    <record id="view_order_form_inherit_recarga" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.recarga</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        name="action_view_recargas"
+                        type="object"
+                        icon="fa-mobile"
+                        attrs="{'invisible': [('recarga_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="recarga_count" string=" "/>
+                        </span>
+                        <span class="o_stat_text"> Recargas</span>
+                    </div>
+                </button>
+            </xpath>
+            
+            <!-- Añadimos indicador en líneas de venta -->
+            <xpath expr="//field[@name='order_line']/tree/field[@name='product_id']" position="after">
+                <field name="is_recarga" invisible="1"/>
+                <label for="is_recarga" string="Recarga?" attrs="{'invisible': [('is_recarga', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 2. Heredamos la vista tree de ventas -->
+    <record id="view_order_tree_inherit_recarga" model="ir.ui.view">
+        <field name="name">sale.order.tree.inherit.recarga</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="has_recargas" invisible="1"/>
+                <label name="label_has_recargas" string="Recargas" 
+                       attrs="{'invisible': [('has_recargas', '=', False)]}"
+                       class="oe_inline"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3. Heredamos la vista de líneas de venta -->
+    <record id="view_order_line_tree_inherit_recarga" model="ir.ui.view">
+        <field name="name">sale.order.line.tree.inherit.recarga</field>
+        <field name="model">sale.order.line</field>
+        <field name="inherit_id" ref="sale.view_order_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_subtotal']" position="after">
+                <field name="recarga_state" related="recarga_task_id.state" string="Estado Recarga"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 4. Añadimos filtros personalizados -->
+    <record id="view_order_search_inherit_recarga" model="ir.ui.view">
+        <field name="name">sale.order.search.inherit.recarga</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_sales']" position="after">
+                <filter name="has_recargas" string="Con Recargas" domain="[('has_recargas','=',True)]"/>
+                <separator/>
+                <filter name="recarga_pendientes" string="Recargas Pendientes" 
+                        domain="[('order_line.recarga_task_id.state','=','draft')]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
