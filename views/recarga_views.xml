@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Vista Tree - Versión completamente validada -->
+    <record id="view_recarga_task_tree" model="ir.ui.view">
+        <field name="name">recarga.task.tree</field>
+        <field name="model">recarga.task</field>
+        <field name="type">tree</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <tree string="Tareas de Recarga">
+                <field name="name" string="Referencia"/>
+                <field name="partner_id" string="Cliente"/>
+                <field name="product_id" string="Producto"/>
+                <field name="amount" string="Monto"/>
+                <field name="state" string="Estado" widget="statusbar"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Form - Versión completamente validada -->
+    <record id="view_recarga_task_form" model="ir.ui.view">
+        <field name="name">recarga.task.form</field>
+        <field name="model">recarga.task</field>
+        <field name="type">form</field>
+        <field name="priority">16</field>
+        <field name="arch" type="xml">
+            <form string="Tarea de Recarga">
+                <header>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="partner_id"/>
+                        <field name="product_id"/>
+                        <field name="amount"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción de Ventana -->
+    <record id="action_recarga_task" model="ir.actions.act_window">
+        <field name="name">Tareas de Recarga</field>
+        <field name="res_model">recarga.task</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menús -->
+    <menuitem id="menu_recarga_root" name="Recargas" sequence="10"/>
+    <menuitem id="menu_recarga_task" name="Gestión de Recargas" 
+              parent="menu_recarga_root" 
+              action="action_recarga_task" 
+              sequence="20"/>
+</odoo>
