@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Vista Tree - Versión completamente validada -->
+    <!-- Vista Tree -->
     <record id="view_recarga_task_tree" model="ir.ui.view">
         <field name="name">recarga.task.tree</field>
         <field name="model">recarga.task</field>
-        <field name="type">tree</field>
         <field name="priority">16</field>
         <field name="arch" type="xml">
             <tree string="Tareas de Recarga">
@@ -17,11 +16,10 @@
         </field>
     </record>
 
-    <!-- Vista Form - Versión completamente validada -->
+    <!-- Vista Form -->
     <record id="view_recarga_task_form" model="ir.ui.view">
         <field name="name">recarga.task.form</field>
         <field name="model">recarga.task</field>
-        <field name="type">form</field>
         <field name="priority">16</field>
         <field name="arch" type="xml">
             <form string="Tarea de Recarga">
@@ -40,7 +38,7 @@
         </field>
     </record>
 
-    <!-- Acción de Ventana -->
+    <!-- Acción -->
     <record id="action_recarga_task" model="ir.actions.act_window">
         <field name="name">Tareas de Recarga</field>
         <field name="res_model">recarga.task</field>
