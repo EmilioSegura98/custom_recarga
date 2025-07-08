@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- 1. Heredamos la vista de POS Orders para añadir smart button -->
+    <record id="view_pos_order_form_inherit_recarga" model="ir.ui.view">
+        <field name="name">pos.order.form.inherit.recarga</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_pos_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button class="oe_stat_button"
+                        name="action_view_recargas"
+                        type="object"
+                        icon="fa-mobile"
+                        attrs="{'invisible': [('recarga_count', '=', 0)]}">
+                    <div class="o_field_widget o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="recarga_count" string=" "/>
+                        </span>
+                        <span class="o_stat_text"> Recargas</span>
+                    </div>
+                </button>
+            </xpath>
+            
+            <xpath expr="//field[@name='lines']/tree/field[@name='product_id']" position="after">
+                <field name="is_recarga" invisible="1"/>
+                <label for="is_recarga" string="Recarga?"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 2. Añadimos campo computado y acción al modelo POS Order -->
+    <record model="ir.ui.view" id="view_pos_order_tree_inherit_recarga">
+        <field name="name">pos.order.tree.inherit.recarga</field>
+        <field name="model">pos.order</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="has_recargas" string="Tiene Recargas" invisible="1"/>
+                <label for="has_recargas" string="Recargas" attrs="{'invisible': [('has_recargas', '=', False)]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- 3. Extendemos la vista de líneas POS -->
+    <record id="view_pos_order_line_tree_inherit_recarga" model="ir.ui.view">
+        <field name="name">pos.order.line.tree.inherit.recarga</field>
+        <field name="model">pos.order.line</field>
+        <field name="inherit_id" ref="point_of_sale.view_pos_order_line_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='price_subtotal']" position="after">
+                <field name="recarga_state" related="recarga_task_id.state" string="Estado Recarga"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
