@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_recarga_task_user,recarga.task.user,model_recarga_task,base.group_user,1,1,1,0
+access_recarga_task_manager,recarga.task.manager,model_recarga_task,base.group_system,1,1,1,1
+access_recarga_task_pos,recarga.task.pos,model_recarga_task,point_of_sale.group_pos_user,1,1,1,0
+access_recarga_task_sale,recarga.task.sale,model_recarga_task,sales_team.group_sale_salesman,1,1,1,0
